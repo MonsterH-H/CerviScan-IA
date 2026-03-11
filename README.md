@@ -1527,14 +1527,20 @@ La gestion du mode hors-ligne est critique pour les zones à connectivité insta
 
 **Format de déploiement :** ONNX (Open Neural Network Exchange) pour compatibilité cross-plateforme
 
-**Classes de sortie :**
-```
-Classe 0 : Normal / Inflammation bénigne
-Classe 1 : Lésion bas grade (LSIL / CIN 1)
-Classe 2 : Lésion haut grade (HSIL / CIN 2-3)
-Classe 3 : Suspect carcinome invasif
-Classe 4 : Indéterminé / Qualité image insuffisante
-```
+**Correspondance des Labels (Classes 0, 1, 2) :**
+
+Afin de permettre une compréhension totale par les équipes médicales (profanes en informatique) et les ingénieurs (Data Scientists), voici l'explication des 3 classes utilisées par l'IA :
+
+#### Pour les Médecins et Patients (Langage Clinique / Profane)
+Ces chiffres sont des catégories pour classer l'état de santé du col de l'utérus détecté sur l'image :
+- **Classe 0 = Type 1 (Sain / Normal) :** Le col de l'utérus est en bonne santé. Il n'y a pas de lésion inquiétante ou précancéreuse visible.
+- **Classe 1 = Type 2 (Lésion de bas grade) :** L'intelligence artificielle a détecté de petites anomalies bénignes ou des lésions très précoces (comme une infection bénigne au HPV). Cela demande généralement une simple surveillance.
+- **Classe 2 = Type 3 (Lésion de haut grade / Suspect) :** C'est le cas sérieux. L'IA a détecté des lésions graves ou fortement suspectes d'être cancéreuses ou précancéreuses. Cela nécessite une biopsie ou une intervention médicale rapide.
+
+#### Pour les Data Scientists (Langage Technique / Machine Learning)
+Un algorithme (EfficientNet-B4) ne comprend pas le texte en entrée/sortie, mais des nombres entiers (indices) convertis ensuite en probabilités.
+- **Label Encoding (0-Indexé) :** Les noms de dossiers textuels ("Type_1", "Type_2", "Type_3") sont convertis en indices de tableau (0, 1, 2) compatibles avec la fonction de perte (CrossEntropyLoss).
+- **Inférence / Output :** En sortie, le modèle ONNX/PyTorch génère un tenseur de 3 probabilités Softmax (ex: `[0.10, 0.05, 0.85]`). La classe finale est obtenue via un `argmax(dim=1)` sur ce tenseur (ici l'index `2` car 0.85 est la plus grande probabilité).
 
 ### 9.2 Pipeline de Traitement des Images
 

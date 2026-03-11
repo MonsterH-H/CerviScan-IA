@@ -1,18 +1,20 @@
+# Configuration du Moteur d'Entraînement de l'Intelligence Artificielle
+# Ce fichier contrôle "comment" l'algorithme apprend et comment il "regarde" les images.
+
 training:
-  epochs: 50
-  batch_size: 16
-  num_workers: 4
-  learning_rate: 0.0003
-  weight_decay: 0.0001
-  optimizer: adamw
-  scheduler: cosine
-  mixed_precision: true
-  class_weight: balanced
+  epochs: 50                          # "Un cycle" d'école. L'IA va revoir toutes vos images 50 fois. (Baissez à 5 ou 10 pour un test rapide en phase de dev).
+  batch_size: 16                      # Combien d'images le PC/GPU va regarder en "une seule gorgée" pour calculer ses erreurs. (A baissez si vous avez l'erreur CUDA OOM).
+  num_workers: 0                      # Processeurs d'aide. A 0 sous Windows pour éviter que Jupyter ne plante en lisant le disque dur.
+  learning_rate: 0.0003               # Le "Pas" d'apprentissage. S'il est grand, l'IA apprend vite mais mal. S'il est petit (0.0003 est classique, Transfer Learning), elle apprend précisément.
+  weight_decay: 0.0001                # La "poubelle mémoire". Efface très légèrement les petits réglages pour forcer l'IA à retenir l'essentiel et éviter le "par cœur" (Overfitting).
+  optimizer: adamw                    # La méthode mathématique qui corrige les erreurs de réseau (AdamW est standard State-of-the-Art).
+  scheduler: cosine                   # Pourcentage d'effort. Baisse doucement le learning_rate vers 0 jusqu'à la fin des 50 époques (forme d'une courbe Cosinus).
+  mixed_precision: true               # (ESSENTIEL GPU) Active la virgule flottante 16-bits. Multiplie la vitesse d'apprentissage par deux sans perdre de qualité visuelle.
+  class_weight: balanced              # (MAGIQUE !) Si "balanced", l'IA calculera les poids et corrigera d'elle-même la rareté des images malades, pour éviter de toujours parier sur la classe avec le plus d'images (Type_2).
 
-
-augmentation:
-  resize: [384, 384]
-  normalize: true
-  hflip: true
-  vflip: true
-  color_jitter: true
+augmentation:                         # Pendant les cycles d'école, l'IA "torture" aléatoirement les images pour apprendre que la taille ou la rotation importe peu.
+  resize: [384, 384]                  # Format standard
+  normalize: true                     # Compense les couleurs moyennes.
+  hflip: true                         # 50% de chance d'inverser horizontalement (miroir).
+  vflip: true                         # 50% de chance d'inverser verticalement (tête en bas).
+  color_jitter: true                  # Varie de temps à autre la luminosité et les contrastes (simule les différences d'éclairages en clinique et l'acidité).

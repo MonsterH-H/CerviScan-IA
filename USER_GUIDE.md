@@ -11,17 +11,17 @@ Avant de commencer, assurez-vous que votre environnement virtuel est configuré 
 
 ```powershell
 # Création de l'environnement (si non fait)
-python -m venv ml/.venv
+python -m venv .venv
 
 # Activation (Windows)
-.\ml\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 
 # Installation des dépendances "State-of-the-Art"
-pip install -r ml/requirements.txt
+pip install -r requirements.txt
 
 > [!TIP]
 > **Problème d'affichage du .venv dans vos Notebooks ?**
-> Si votre environnement n'apparaît pas dans le sélecteur de Noyau (Kernel) de VS Code, lancez cette commande depuis le dossier `ml/` :
+> Si votre environnement n'apparaît pas dans le sélecteur de Noyau (Kernel) de VS Code, lancez cette commande :
 > ```powershell
 > .\.venv\Scripts\python.exe -m ipykernel install --user --name=sentai_venv --display-name="SentAI (.venv)"
 > ```
@@ -34,7 +34,7 @@ pip install -r ml/requirements.txt
 Le modèle utilise une architecture **EfficientNet-B4**. Les données doivent être structurées et équilibrées avant l'entraînement.
 
 ### Commande de préparation
-Cette commande scanne les dossiers sources, gère les doublons, et crée la répartition Train/Val/Test. Elle doit être exécutée **depuis le dossier `ml/`**.
+Cette commande scanne les dossiers sources, gère les doublons, et crée la répartition Train/Val/Test.
 
 ```powershell
 python scripts/prepare_dataset.py
@@ -49,7 +49,7 @@ python scripts/prepare_dataset.py
 
 ## 🧠 3. Entraînement du Modèle (Training)
 
-L'entraînement est piloté par CLI (Command Line Interface) et configuré via les fichiers YAML dans `ml/configs/`.
+L'entraînement est piloté par CLI (Command Line Interface) et configuré via les fichiers YAML dans `configs/`.
 
 ### Lancer un entraînement standard
 ```powershell
@@ -70,7 +70,7 @@ Une fois le modèle entraîné, il est impératif de valider sa robustesse sur l
 
 ### Commande d'évaluation
 ```powershell
-python -m src.cli.eval --model weights/best_model.pth --config configs/eval.yaml
+python -m src.cli.eval --checkpoint weights/best_model.pth --config configs/eval.yaml
 ```
 
 > [!IMPORTANT]
@@ -86,7 +86,7 @@ Pour l'intégration dans la **PWA (Progressive Web App)**, le modèle doit être
 
 ### Commande d'exportation
 ```powershell
-python -m src.cli.export --model weights/best_model.pth --output outputs/cerviscan_v1.onnx
+python -m src.cli.export --checkpoint weights/best_model.pth --output outputs/cerviscan_v1.onnx
 ```
 
 *   **Format :** ONNX (Open Neural Network Exchange).
@@ -97,19 +97,19 @@ python -m src.cli.export --model weights/best_model.pth --output outputs/cervisc
 
 ## 🛠️ 6. Antisèche (Cheat Sheet) des Commandes
 
-| Action | Commande (depuis le dossier `ml/`) |
+| Action | Commande |
 | :--- | :--- |
 | **Setup** | `pip install -r requirements.txt` |
 | **Data Prep** | `python scripts/prepare_dataset.py` |
 | **Train** | `python -m src.cli.train` |
-| **Eval** | `python -m src.cli.eval --model ...` |
-| **Export** | `python -m src.cli.export --model ...` |
+| **Eval** | `python -m src.cli.eval --checkpoint ...` |
+| **Export** | `python -m src.cli.export --checkpoint ...` |
 | **Test Env** | `python test_env.py` |
 
 ---
 
 ## 🛡️ 7. Règles d'Or de Développement
-*Extract du fichier `ml/regle.md`*
+*Extract du fichier `regle.md`*
 
 1.  **Split AVANT Transfo :** On ne normalise jamais avant d'avoir séparé le Train et le Test.
 2.  **Baseline Simple :** Toujours comparer les résultats avec un modèle simple.

@@ -1,6 +1,9 @@
-﻿evaluation:
-  batch_size: 32
-  num_workers: 4
-  metrics:
-    - accuracy
-    - f1_macro
+# Configuration de l'Etape d'Evaluation
+# Définit comment on vérifie la performance réelle du modèle (Règle 11).
+
+evaluation:
+  batch_size: 32                      # Nombre d'images traitées en même temps. Peut être plus grand que pour l'entraînement (car l'évaluation utilise moins de RAM vidéo).
+  num_workers: 0                      # Processeurs d'aide. A 0 sous Windows pour éviter les plantages Jupyter. A 4/8 en production Linux.
+  metrics:                            # Ce qu'il faut mesurer :
+    - accuracy                        # Taux de prédictions globales réussies (ne suffit pas, Règle 13 !)
+    - f1_macro                        # La métrique d'OR ! Calcule le succès classe par classe, puis moyenne équitablement. Pénalise si Type 3 (cancer) est oublié.

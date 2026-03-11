@@ -1,20 +1,23 @@
-﻿data:
+# Configuration du Pipeline de Données
+# Ce fichier définit où trouver les images et comment les diviser.
+
+data:
   paths:
-    train_dirs:
+    train_dirs:                       # Dossiers où chercher les images pour l'entraînement. L'IA apprendra de ces images.
       - data/train/train
       - data/additional_Type_1_v2
       - data/additional_Type_2_v2
       - data/additional_Type_3_v2
-    test_dirs:
+    test_dirs:                        # Dossiers strictement réservés au Test (Règle n°11). Le modèle ne verra JAMAIS ces images avant l'évaluation finale.
       - data/test
       - data/test_stg2
 
   splits:
-    val: 0.15
-    test: 0.15
-    stratify: true
+    val: 0.15                         # Pourcentage (15%) des 'train_dirs' mis de côté pour valider à chaque cycle d'apprentissage pendant l'entraînement.
+    test: 0.15                        # Pourcentage (15%) mis de côté si la répartition se fait automatiquement sans utiliser test_dirs.
+    stratify: true                    # ESSENTIEL (Règle n°13) : "Stratifier" signifie qu'on garantit que la proportion de chaque classe reste la même dans Train et Val.
 
-  labels:
+  labels:                             # Correspondance humaine pour les indices informatiques (Label Encoding).
     0: Type_1
     1: Type_2
     2: Type_3

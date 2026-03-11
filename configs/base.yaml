@@ -1,13 +1,16 @@
-﻿project:
-  name: sentai_cervical_vision
-  seed: 42
+# Configuration de Base du Projet SentAI
+# Ce fichier contient les paramètres globaux de l'architecture et du modèle.
+
+project:
+  name: sentai_cervical_vision        # Nom du projet, utilisé pour nommer les dossiers de logs et les exports
+  seed: 42                            # Graine de hasard (Seed) : Règle n°4 (Reproductibilité). Fixer cette valeur garantit que l'IA donne les mêmes résultats avec les mêmes données.
 
 model:
-  architecture: efficientnet_b4
-  num_classes: 3
-  input_size: [3, 384, 384]
-  pretrained: true
+  architecture: efficientnet_b4       # L'architecture du réseau de neurones. EfficientNet-B4 est un excellent compromis entre précision et rapidité (Règle n°9).
+  num_classes: 3                      # Le nombre de classes à prédire (0 = Type 1, 1 = Type 2, 2 = Type 3).
+  input_size: [3, 384, 384]           # Format d'entrée : [Canaux_RGB (3), Hauteur (384), Largeur (384)]. C'est la taille standard pour B4.
+  pretrained: true                    # Transfer Learning : L'IA démarre avec des connaissances générales du monde (ImageNet) au lieu de démarrer de zéro. Fortement recommandé.
 
 export:
-  format: onnx
-  opset: 17
+  format: onnx                        # Format de déploiement universel (Open Neural Network Exchange).
+  opset: 17                           # Version de l'export ONNX. La v17 assure la compatibilité avec la majorité des navigateurs et backends modernes.
