@@ -1,0 +1,18 @@
+training:
+  epochs: 50
+  batch_size: 16
+  num_workers: 4
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  optimizer: adamw
+  scheduler: cosine
+  mixed_precision: true
+  class_weight: balanced
+
+
+augmentation:
+  resize: [384, 384]
+  normalize: true
+  hflip: true
+  vflip: true
+  color_jitter: true

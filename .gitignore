@@ -1,0 +1,32 @@
+# Environnement virtuel
+.venv/
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Données (Très important pour éviter de pousser des Go d'images)
+data/
+!data/.gitkeep
+
+# Modèles et Poids (Trop lourds pour GitHub standard)
+weights/
+*.pth
+*.onnx
+
+# Configuration locale et IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Rapports et logs
+reports/
+logs/
+*.log

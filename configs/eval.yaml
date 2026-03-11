@@ -1,0 +1,6 @@
+﻿evaluation:
+  batch_size: 32
+  num_workers: 4
+  metrics:
+    - accuracy
+    - f1_macro

@@ -1,0 +1,20 @@
+﻿data:
+  paths:
+    train_dirs:
+      - data/train/train
+      - data/additional_Type_1_v2
+      - data/additional_Type_2_v2
+      - data/additional_Type_3_v2
+    test_dirs:
+      - data/test
+      - data/test_stg2
+
+  splits:
+    val: 0.15
+    test: 0.15
+    stratify: true
+
+  labels:
+    0: Type_1
+    1: Type_2
+    2: Type_3

@@ -1,0 +1,13 @@
+﻿project:
+  name: sentai_cervical_vision
+  seed: 42
+
+model:
+  architecture: efficientnet_b4
+  num_classes: 3
+  input_size: [3, 384, 384]
+  pretrained: true
+
+export:
+  format: onnx
+  opset: 17
