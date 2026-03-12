@@ -6,7 +6,13 @@ Il gère la fusion des multiples fichiers de configuration YAML et lance la fonc
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
+
+# Fix: Ajout de la racine au PYTHONPATH pour eviter le ModuleNotFoundError
+REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Important : importe la fonction de création du modèle et d'entraînement
 from ml.src.training.trainer import train

@@ -8,9 +8,9 @@ opencv-python
 # albumentations (Desactive car non compatible Windows/Python 3.14 - Regle 4)
 
 # Training
-torch
-torchvision
-timm
+torch==2.10.0+cpu
+torchvision==0.25.0+cpu
+timm==0.9.12  # version compatible avec PyTorch 2.10 et Python 3.12
 
 # Export / Inference
 onnx

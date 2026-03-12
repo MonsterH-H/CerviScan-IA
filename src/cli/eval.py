@@ -7,7 +7,13 @@ Il est très important pour la Règle n°11 : Valider la performance sur des don
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
+
+# Fix: Ajout de la racine au PYTHONPATH pour eviter le ModuleNotFoundError
+REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from ml.src.training.trainer import evaluate
 from ml.src.utils.config import load_and_merge

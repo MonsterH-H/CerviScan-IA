@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 from ml.src.data.datasets import CervixImageDataset, ImageSample
 from ml.src.data.transforms import build_eval_transforms, build_train_transforms
@@ -92,7 +93,8 @@ def _run_epoch(model, loader, loss_fn, device, optimizer=None, scaler=None):
     all_preds = []
     all_targets = []
 
-    for images, labels in loader:
+    pbar = tqdm(loader, desc="Train" if is_train else "Eval", leave=False)
+    for images, labels in pbar:
         images, labels = images.to(device), labels.to(device)
 
         if is_train:
@@ -119,6 +121,9 @@ def _run_epoch(model, loader, loss_fn, device, optimizer=None, scaler=None):
         preds = torch.argmax(logits, dim=1)
         all_preds.extend(preds.cpu().numpy())
         all_targets.extend(labels.cpu().numpy())
+        
+        # Mise à jour de la barre de progression
+        pbar.set_postfix(loss=loss.item())
 
     metrics = classification_metrics(np.array(all_targets), np.array(all_preds))
     metrics["loss"] = total_loss / len(loader.dataset)

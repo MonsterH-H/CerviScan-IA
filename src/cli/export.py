@@ -7,7 +7,13 @@ C'est indispensable pour l'intégration future avec la PWA (Progressive Web App)
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
+
+# Fix: Ajout de la racine au PYTHONPATH pour eviter le ModuleNotFoundError
+REPO_ROOT = Path(__file__).resolve().parents[3]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 import torch
 

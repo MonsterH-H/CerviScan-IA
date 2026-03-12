@@ -16,6 +16,8 @@ python -m venv .venv
 # Activation (Windows)
 .\.venv\Scripts\Activate.ps1
 
+python -m ipykernel install --user --name .venv --display-name "Python (.venv)"
+
 # Installation des dépendances "State-of-the-Art"
 pip install -r requirements.txt
 
